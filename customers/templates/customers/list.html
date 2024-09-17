@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="mt-5">Clientes</h2>
+    <a href="{% url 'customer-create' %}" class="btn btn-success mt-3 mb-3">Cadastrar novo</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>
+                        <!-- path('customer_edit', {'id': customer.id}) -->
+                        <a href="{% url 'customer-detail' customer.id %}" class="btn btn-primary">Detalhes</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
