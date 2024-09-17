@@ -3,12 +3,12 @@
 <div class="container">
     <h2 class="mt-5">Cadastar cliente</h2>
 
-    <form method="post">
+    <form method="post" class="mt-5">
         {% csrf_token %}
         <div class="mb-3">
             {{ form.as_p }}
         </div>
-        <input type="submit" class="btn btn-primary" value="Cadastrar">
+        <input type="submit" class="btn btn-primary mt-3" value="Cadastrar">
     </form>
 </div>
 {% endblock %}
