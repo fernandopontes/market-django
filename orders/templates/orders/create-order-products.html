@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="mt-5">Detalhes do pedido</h2>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Cliente: {{ order.customer }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Data: {{ order.date }}</h6>
+            <p class="card-text">Produtos:</p>
+            <form method="post" action="/orders/order/{{ order.id }}/" class="mt-5">
+                {% csrf_token %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="40">Imagem</th>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" width="50%">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/150" width="50%">
+                                    {% endif %}
+                                </td>
+                                <td>{{ product.name }}</td>
+                                <td>
+                                    <input type="number" name="quantity-{{ product.id }}" value="0" min="0" max="{{ product.stock }}">
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <input type="hidden" name="order" value="{{ order.id }}">
+                <input type="submit" class="btn btn-primary mt-3" value="Finalizar pedido">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

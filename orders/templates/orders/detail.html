@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="mt-5">Detalhes do pedido</h2>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Cliente: {{ order.customer }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Data: {{ order.date }}</h6>
+            <p class="card-text">Produtos:</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.orders_products.all %}
+                        <tr>
+                            <td><a href="{% url 'product-detail' item.product.id %}">{{ item.product }}</a></td>
+                            <td>{{ item.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

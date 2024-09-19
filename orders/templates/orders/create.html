@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="mt-5">Cadastar pedido</h2>
+
+    <form method="post" class="mt-5">
+        {% csrf_token %}
+        <table class="mb-3">
+            <tbody>
+                <tr>
+                    <th><label for="id_date">Date:</label></th>
+                    <td>
+                        <input type="date" name="date" required="" id="id_date">
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="id_customer">Customer:</label></th>
+                    <td>
+                        <select name="customer" required="" id="id_customer">
+                            <option value="" selected="">---------</option>
+                            
+                            {% for item in customers %}
+                                <option value="{{ item.id }}">{{ item.name }}</option>
+                            {% endfor %}                         
+                        </select>
+                    </td>
+                  </tr>
+            </tbody>
+        </table>
+        <input type="submit" class="btn btn-primary mt-3" value="Próxima etapa">
+    </form>
+</div>
+{% endblock %}

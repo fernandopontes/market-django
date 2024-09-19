@@ -7,7 +7,6 @@ class ListView(generic.ListView):
     model = Customer
     template_name = 'customers/list.html'
     context_object_name = 'customers'
-    paginate_by = 10
 
 class DetailView(generic.DetailView):
     model = Customer

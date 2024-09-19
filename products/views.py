@@ -1,13 +1,12 @@
 from django.shortcuts import redirect
 from django.views import generic
-from products.forms import CustomerForm
+from products.forms import ProductForm
 from products.models import Product
 
 class ListView(generic.ListView):
     model = Product
     template_name = 'products/list.html'
     context_object_name = 'products'
-    paginate_by = 10
 
 class DetailView(generic.DetailView):
     model = Product
@@ -16,7 +15,7 @@ class DetailView(generic.DetailView):
 
 class CreateView(generic.FormView):
     template_name = 'products/create.html'
-    form_class = CustomerForm
+    form_class = ProductForm
     success_url = '/products/create/'
 
     def form_valid(self, form):

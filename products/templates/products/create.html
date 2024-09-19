@@ -5,9 +5,9 @@
 
     <form method="post" enctype="multipart/form-data" class="mt-5">
         {% csrf_token %}
-        <div class="mb-3">
-            {{ form.as_p }}
-        </div>
+        <table class="mb-3">
+            {{ form.as_table }}
+        </table>
         <input type="submit" class="btn btn-primary mt-3" value="Cadastrar">
     </form>
 </div>
