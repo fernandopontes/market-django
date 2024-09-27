@@ -15,12 +15,17 @@ class OrderCreateAPIView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         customer_id = request.data.get('customer_id')
         if not Customer.objects.filter(id=customer_id).exists():
-            raise ValidationError(f"Customer with id {customer_id} does not exist.")
+            raise ValidationError(f"Cliente com id {customer_id} não existe.")
         
         for product in request.data.get('products', []):
             product_id = product.get('product_id')
+            product_quantity = product.get('quantity')
+            
             if not Product.objects.filter(id=product_id).exists():
-                raise ValidationError(f"Product with id {product_id} does not exist.")
+                raise ValidationError(f"Produto com id {product_id} não existe.")
+            
+            if not Product.objects.filter(id=product_id, stock__gte=product_quantity).exists():
+                raise ValidationError(f"Produto com id {product_id} não tem quantidade suficiente no estoque.")
         
         try:
             order = Order.objects.create(
@@ -30,11 +35,17 @@ class OrderCreateAPIView(generics.CreateAPIView):
             
             for product in request.data.get('products', []):
                 if product.get('product_id') != None:
-                    OrderProduct.objects.create(
+                    orderProduct = OrderProduct.objects.create(
                         order_id=order.id,
                         product_id=product.get('product_id'),
                         quantity=product.get('quantity')
                     )
+
+                    if orderProduct:
+                        product = Product.objects.get(id=product.get('product_id'))
+                        product.stock -= product_quantity
+                        product.save()
+
 
             return HttpResponse(status=201)
         except Exception as e:
